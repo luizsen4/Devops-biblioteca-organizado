@@ -1,0 +1,12 @@
+---
+- name: Verificar ambiente Docker local
+  hosts: local
+  gather_facts: false
+  tasks:
+    - name: Verificar se o Docker esta acessivel
+      ansible.builtin.command: docker version
+      register: docker_version
+      changed_when: false
+    - name: Mostrar versao do Docker
+      ansible.builtin.debug:
+        msg: "{{ docker_version.stdout }}"

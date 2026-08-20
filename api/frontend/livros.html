@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca - Livros</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1>Biblioteca</h1>
+      <button id="btn-logout" style="background-color: #dc3545;">Sair</button>
+    </div>
+
+    <h2>Cadastrar Novo Livro</h2>
+    <div id="mensagem" class="alerta"></div>
+
+    <form id="form-livro">
+      <input type="text" id="titulo" placeholder="Título" required>
+      <input type="text" id="autor" placeholder="Autor" required>
+      <input type="text" id="categoria" placeholder="Categoria">
+      <input type="number" id="ano" placeholder="Ano de Publicação">
+      <button type="submit">Adicionar Livro</button>
+    </form>
+
+    <h2>Catálogo de Livros</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Categoria</th>
+          <th>Ano</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-livros">
+        <!-- Preenchido dinamicamente via JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
