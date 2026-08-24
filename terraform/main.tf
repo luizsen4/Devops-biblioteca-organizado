@@ -21,7 +21,7 @@ resource "docker_image" "api" {
   name = "biblioteca-api:local"
 
   build {
-    context    = "${path.module}/../api"
+    context    = "${path.module}/../app/backend"
     dockerfile = "Dockerfile"
   }
 }
@@ -30,7 +30,7 @@ resource "docker_image" "frontend" {
   name = "biblioteca-frontend:local"
 
   build {
-    context    = "${path.module}/../api/frontend"
+    context    = "${path.module}/../app/frontend"
     dockerfile = "Dockerfile"
   }
 }
@@ -42,15 +42,10 @@ resource "docker_container" "db" {
   restart = "unless-stopped"
 
   env = [
-    "POSTGRES_USER=postgres",
-    "POSTGRES_PASSWORD=postgrespassword",
-    "POSTGRES_DB=biblioteca"
+    "POSTGRES_USER=${var.db_user}",
+    "POSTGRES_PASSWORD=${var.db_password}",
+    "POSTGRES_DB=${var.db_name}"
   ]
-
-  ports {
-    internal = 5432
-    external = 5432
-  }
 
   volumes {
     volume_name    = "biblioteca-pgdata"
@@ -70,12 +65,12 @@ resource "docker_container" "api" {
 
   env = [
     "PORT=3000",
-    "JWT_SECRET=minha_chave_super_secreta_123",
+    "JWT_SECRET=${var.jwt_secret}",
     "DB_HOST=biblioteca-db",
     "DB_PORT=5432",
-    "DB_USER=postgres",
-    "DB_PASSWORD=postgrespassword",
-    "DB_NAME=biblioteca"
+    "DB_USER=${var.db_user}",
+    "DB_PASSWORD=${var.db_password}",
+    "DB_NAME=${var.db_name}"
   ]
 
   ports {
@@ -100,7 +95,7 @@ resource "docker_container" "frontend" {
 
   ports {
     internal = 80
-    external = 8080
+    external = 8090
   }
 
   networks_advanced {
