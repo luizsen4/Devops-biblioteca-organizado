@@ -1,0 +1,42 @@
+---
+- name: Validar aplicacao Biblioteca no Docker local
+  hosts: local
+  gather_facts: false
+  tasks:
+    - name: Verificar containers da biblioteca
+      community.docker.docker_container_info:
+        name: "{{ item }}"
+      loop:
+        - biblioteca-db
+        - biblioteca-api
+        - biblioteca-frontend
+      register: biblioteca_containers
+    - name: Garantir que os containers existem e estao em execucao
+      ansible.builtin.assert:
+        that:
+          - item.container is not none
+          - item.container.State.Running
+        fail_msg: "Container {{ item.item }} nao esta em execucao."
+        success_msg: "Container {{ item.item }} esta em execucao."
+      loop: "{{ biblioteca_containers.results }}"
+    - name: Testar API local
+      ansible.builtin.uri:
+        url: http://localhost:3000/livros
+        method: GET
+        status_code: 200
+      register: api_response
+      retries: 10
+      delay: 3
+      until: api_response.status == 200
+    - name: Testar frontend local
+      ansible.builtin.uri:
+        url: http://localhost:8080/login.html
+        method: GET
+        status_code: 200
+    - name: Exibir resultado
+      ansible.builtin.debug:
+        msg:
+          - "API: http://localhost:3000"
+          - "Frontend: http://localhost:8080"
+          - "PostgreSQL: localhost:5432"
+          - "npm install no host: NAO e necessario"

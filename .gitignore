@@ -1,0 +1,25 @@
+# Terraform
+*.tfstate*
+.terraform/
+*.tfvars
+
+# Ansible
+*.pem
+*.key
+*.retry
+
+# Node.js
+node_modules/
+dist/
+*.log
+
+# Segredos e Sistema
+.env
+.DS_Store
+.vscode/
+
+.env
+*.tfvars
+*.tfstate
+*.tfstate.*
+.terraform/
