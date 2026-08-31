@@ -1,0 +1,37 @@
+
+/ Como está:
+
+resource "docker_image" "ubuntu" {
+  name = "ubuntu:latest"
+}
+
+resource "docker_container" "servidor" {
+  name    = "ubuntu-server"
+  image   = docker_image.ubuntu.image_id
+  command = ["sleep", "infinity"]
+}
+
+como pode melhorar: 
+
+# 1. Declara e baixa a imagem oficial do Node 20 no formato Alpine (super leve)
+resource "docker_image" "node_image" {
+  name = "node:20-alpine"
+}
+
+# 2. Cria o container usando a imagem do Node 20
+resource "docker_container" "servidor" {
+  name  = "ubuntu-server" # Você pode manter o nome ou mudar para "node-server"
+  image = docker_image.node_image.image_id
+
+  # Mantém o container vivo para o Ansible conseguir conectar
+  command = ["sleep", "infinity"] 
+
+  # Mapeia a porta 3000 do container para a sua máquina (Windows)
+  ports {
+    internal = 3000
+    external = 3000
+  }
+}
+
+https://github.com/etesilviomonte/iac-lab
+/
