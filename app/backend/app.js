@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
@@ -70,9 +69,11 @@ function autenticarToken(req, res, next) {
     next();
   });
 }
+// Rota raiz para verificar se a API está rodando
+app.get("/", (req, res) => res.json({ status: "API rodando" }));
 
 // ROTAS DE AUTENTICAÇÃO
-app.post("/usuarios", async (req, res) => {
+app.post("/cadastro", async (req, res) => {
   const { matricula, senha } = req.body;
   if (!matricula || !senha) return res.status(400).json({ mensagem: "Matrícula e senha são obrigatórias!" });
   if (senha.length < 6) return res.status(400).json({ mensagem: "A senha deve ter no mínimo 6 caracteres!" });
