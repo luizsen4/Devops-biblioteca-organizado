@@ -87,6 +87,7 @@ if (tabelaLivros) {
         <td>${livro.autor}</td>
         <td>${livro.categoria || '-'}</td>
         <td>${livro.ano || '-'}</td>
+        <td>${livro.disponivel ? 'Sim' : 'Não'}</td>
         <td>
           <button onclick="deletarLivro(${livro.id})" style="background-color: #dc3545; padding: 5px 10px;">Remover</button>
         </td>
