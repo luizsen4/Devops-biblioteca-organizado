@@ -1,8 +1,0 @@
----
-- name: Fluxo local da Biblioteca
-  hosts: local
-  gather_facts: false
-  tasks:
-    - name: Mensagem
-      ansible.builtin.debug:
-        msg: "Use Terraform para provisionar os containers e Ansible para validar o ambiente local."
