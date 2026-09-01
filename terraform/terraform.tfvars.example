@@ -1,0 +1,3 @@
+db_user     = "postgres"
+db_password = "troque_esta_senha"
+jwt_secret  = "troque_esta_chave"
